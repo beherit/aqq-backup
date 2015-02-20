@@ -164,7 +164,7 @@ object BackupAQQForm: TBackupAQQForm
     ExplicitTop = 193
     ExplicitWidth = 414
   end
-  object PageControl: TPageControl
+  object PageControl: TsPageControl
     Left = 0
     Top = 0
     Width = 358
@@ -176,10 +176,13 @@ object BackupAQQForm: TBackupAQQForm
     ActivePage = WizzardTabSheet
     Align = alClient
     TabOrder = 0
-    object WizzardTabSheet: TTabSheet
+    SkinData.SkinSection = 'PAGECONTROL'
+    object WizzardTabSheet: TsTabSheet
       Caption = 'WizzardTabSheet'
       TabVisible = False
       OnShow = WizzardTabSheetShow
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object Image1: TImage
         Left = 219
         Top = 138
@@ -2301,6 +2304,7 @@ object BackupAQQForm: TBackupAQQForm
         TabOrder = 3
         Text = ''
         OnChange = sDirectoryEditChange
+        CheckOnExit = True
         BoundLabel.Active = True
         BoundLabel.Caption = 'Zapisz kopi'#281' do:'
         BoundLabel.Indent = 4
@@ -2319,10 +2323,12 @@ object BackupAQQForm: TBackupAQQForm
         Root = 'rfDesktop'
       end
     end
-    object ProgressTabSheet: TTabSheet
+    object ProgressTabSheet: TsTabSheet
       Caption = 'ProgressTabSheet'
       ImageIndex = 1
       TabVisible = False
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object InfoLabel: TsLabel
         AlignWithMargins = True
         Left = 10
@@ -4432,10 +4438,12 @@ object BackupAQQForm: TBackupAQQForm
         SkinData.SkinSection = 'GAUGE'
       end
     end
-    object BackupsListTabSheet: TTabSheet
+    object BackupsListTabSheet: TsTabSheet
       Caption = 'BackupsListTabSheet'
       ImageIndex = 2
       TabVisible = False
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object Image3: TImage
         Left = 219
         Top = 138
@@ -7613,8 +7621,8 @@ object BackupAQQForm: TBackupAQQForm
     SkinDirectory = 'c:\Skins'
     SkinName = 'Skin (internal)'
     SkinInfo = '7.7'
-    ThirdParty.ThirdEdits = ' '
-    ThirdParty.ThirdButtons = 'TButton'#13#10
+    ThirdParty.ThirdEdits = ' '#13#10
+    ThirdParty.ThirdButtons = ' '#13#10
     ThirdParty.ThirdBitBtns = ' '#13#10
     ThirdParty.ThirdCheckBoxes = ' '#13#10
     ThirdParty.ThirdGroupBoxes = ' '#13#10
@@ -7626,7 +7634,7 @@ object BackupAQQForm: TBackupAQQForm
     ThirdParty.ThirdWWEdits = ' '#13#10
     ThirdParty.ThirdVirtualTrees = ' '#13#10
     ThirdParty.ThirdGridEh = ' '#13#10
-    ThirdParty.ThirdPageControl = 'TPageControl'#13#10
+    ThirdParty.ThirdPageControl = ' '#13#10
     ThirdParty.ThirdTabControl = ' '#13#10
     ThirdParty.ThirdToolBar = ' '#13#10
     ThirdParty.ThirdStatusBar = ' '#13#10
@@ -7634,13 +7642,15 @@ object BackupAQQForm: TBackupAQQForm
     ThirdParty.ThirdScrollControl = ' '#13#10
     ThirdParty.ThirdUpDown = ' '#13#10
     ThirdParty.ThirdScrollBar = ' '#13#10
+    ThirdParty.ThirdStaticText = ' '#13#10
+    ThirdParty.ThirdNativePaint = ' '#13#10
     Top = 248
   end
   object ZipForge: TZipForge
     ExtractCorruptedFiles = False
     CompressionLevel = clMax
     CompressionMode = 9
-    CurrentVersion = '6.11 '
+    CurrentVersion = '6.50 '
     SpanningMode = smNone
     SpanningOptions.AdvancedNaming = False
     SpanningOptions.FirstVolumeSize = 0

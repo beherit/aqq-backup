@@ -43,6 +43,7 @@
 #pragma link "sSkinManager"
 #pragma link "sTooledit"
 #pragma link "ZipForge"
+#pragma link "sPageControl"
 #pragma resource "*.dfm"
 TBackupAQQForm *BackupAQQForm;
 //---------------------------------------------------------------------------
