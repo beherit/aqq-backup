@@ -564,9 +564,8 @@ void __fastcall TBackupAQQForm::sOpenDialogCanClose(TObject *Sender, bool &CanCl
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TBackupAQQForm::ZipForgeFileProgress(TObject *Sender, UnicodeString FileName,
-			double Progress, TZFProcessOperation Operation, TZFProgressPhase ProgressPhase,
-			bool &Cancel)
+void __fastcall TBackupAQQForm::ZipForgeFileProgress(TObject *Sender, UnicodeString FileName, double Progress,
+				TZFProcessOperation Operation, TZFProgressPhase ProgressPhase, bool &Cancel)
 {
 	//Usuwanie zbednych sciezek
 	if(ProfilesListBox->Count) FileName = StringReplace(FileName, ProfilesPath+ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex], "...", TReplaceFlags() << rfReplaceAll);
@@ -585,7 +584,7 @@ void __fastcall TBackupAQQForm::ZipForgeFileProgress(TObject *Sender, UnicodeStr
 //---------------------------------------------------------------------------
 
 void __fastcall TBackupAQQForm::ZipForgeOverallProgress(TObject *Sender, double Progress,
-			TZFProcessOperation Operation, TZFProgressPhase ProgressPhase, bool &Cancel)
+				TZFProcessOperation Operation, TZFProgressPhase ProgressPhase, bool &Cancel)
 {
 	//Ustawienie paska postepu
 	ProgressBar->Position = Progress;
@@ -598,8 +597,7 @@ void __fastcall TBackupAQQForm::ZipForgeOverallProgress(TObject *Sender, double 
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TBackupAQQForm::sDirectoryEditAfterDialog(TObject *Sender, UnicodeString &Name,
-			bool &Action)
+void __fastcall TBackupAQQForm::sDirectoryEditAfterDialog(TObject *Sender, UnicodeString &Name, bool &Action)
 {
 	//Wybrana sciezka jest inna niz ta domyslna
 	if(Name!=ExtractFilePath(Application->ExeName) + "\\Backups")
