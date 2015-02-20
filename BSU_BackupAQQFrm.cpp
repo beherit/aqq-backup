@@ -25,8 +25,8 @@
 #pragma resource "*.dfm"
 TBackupAQQForm *BackupAQQForm;
 //---------------------------------------------------------------------------
-typedef TComInterface<ITaskbarList3, &IID_ITaskbarList3> ITaskbarListPtr; //Taskbar
-ITaskbarListPtr FTaskbarList; //Taskbar
+typedef TComInterface<ITaskbarList3, &IID_ITaskbarList3> ITaskbarListPtr;
+ITaskbarListPtr FTaskbarList;
 UnicodeString ProfilesPath; //Sciezka profili
 UnicodeString UserProfilePath; //Sciezka profili
 UnicodeString CommandLine[3]; //Komendy przekazane wraz z uruchomieniem
@@ -206,8 +206,6 @@ void __fastcall TBackupAQQForm::aGetProfilesExecute(TObject *Sender)
 
 void __fastcall TBackupAQQForm::aBackupProfileExecute(TObject *Sender)
 {
-  //Zmienna pomocnicza w przypadku bledow
-  bool TerminateOperation = false;
   //Ustawienie wlasciwego caption labela
   InfoLabel->Caption = "Proszê czekaæ, trwa tworzenie kopii zapasowej profilu \"" + ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex] + "\". Mo¿e to potrwaæ nawet kilka minut.";
   //Wylaczenie przyciskow
@@ -246,28 +244,16 @@ void __fastcall TBackupAQQForm::aBackupProfileExecute(TObject *Sender)
   //Inicjonowanie tworzenia backupu
   ZipForge->BaseDir = ProfilesPath;
   ZipForge->FileName = BackupName;
-  try { ZipForge->OpenArchive(fmCreate); } 
-  catch (...)
-  {
-	//Odznaczenie wystapienie wyjatku
-	TerminateOperation = true;
-	//Wylaczenie tworzenia kopii zapasowej
-	ZipForge->CloseArchive();
-	//Informacja o bledzie
-	InfoLabel->Caption = "Wyst¹pi³ b³¹d podczas tworzenia kopii zapasowej profilu \"" + ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex] + "\". Spróbuj wykonaæ kopiê zapasow¹ ponownie lub zmieñ lokalizacjê folderu kopii zapasowych.";
-  } 
-  if(!TerminateOperation)
-  { 
-	ZipForge->AddFiles("\\" + ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex] + "\\*.*");
-	ZipForge->CloseArchive();
-	//Informacja koncowa
-	InfoLabel->Caption = "Proces tworzenia kopii zapasowej przebieg³ prawid³owo. Kopia profilu \"" + ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex] + "\" zosta³a zapisana do pliku \"" + ExtractFileName(BackupName) + "\".";
-  }
+  ZipForge->OpenArchive(fmCreate);
+  ZipForge->AddFiles("\\" + ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex] + "\\*.*");
+  ZipForge->CloseArchive();
   //Resetowanie paska postepu
   ProgressBar->Visible = false;
   ProgressLabel->Visible = false;
   //Ustawienie paska postepu na taskbarze
-  if(FTaskbarList) FTaskbarList->SetProgressState(Handle, TBPF_NOPROGRESS);  
+  if(FTaskbarList) FTaskbarList->SetProgressState(Handle, TBPF_NOPROGRESS);
+  //Informacja koncowa
+  InfoLabel->Caption = "Proces tworzenia kopii zapasowej przebieg³ prawid³owo. Kopia profilu \"" + ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex] + "\" zosta³a zapisana do pliku \"" + ExtractFileName(BackupName) + "\".";
   //Wlaczenie przyciskow
   PreviousButton->Enabled = true;
   CloseButton->Enabled = true;
@@ -276,8 +262,6 @@ void __fastcall TBackupAQQForm::aBackupProfileExecute(TObject *Sender)
 
 void __fastcall TBackupAQQForm::aCommandBackupProfileExecute(TObject *Sender)
 {
-  //Zmienna pomocnicza w przypadku bledow
-  bool TerminateOperation = false;  
   //Pobieranie listy profili
   aGetProfiles->Execute();
   //Pobranie przekazanych parametrow
@@ -344,19 +328,9 @@ void __fastcall TBackupAQQForm::aCommandBackupProfileExecute(TObject *Sender)
 	//Inicjonowanie tworzenia backupu
 	ZipForge->BaseDir = ProfilesPath;
 	ZipForge->FileName = BackupName;
-	try { ZipForge->OpenArchive(fmCreate); } 
-	catch (...)
-	{
-	  //Odznaczenie wystapienie wyjatku
-	  TerminateOperation = true;
-	  //Wylaczenie tworzenia kopii zapasowej
-	  ZipForge->CloseArchive();
-	}
-	if(!TerminateOperation)
-	{
-	  ZipForge->AddFiles("\\" + ProfileName + "\\*.*");
-	  ZipForge->CloseArchive();
-	}
+	ZipForge->OpenArchive(fmCreate);
+	ZipForge->AddFiles("\\" + ProfileName + "\\*.*");
+	ZipForge->CloseArchive();
   }
   //Zamkniecie aplikacji
   Application->Terminate();
@@ -626,5 +600,3 @@ void __fastcall TBackupAQQForm::sDirectoryEditChange(TObject *Sender)
   }
 }
 //---------------------------------------------------------------------------
-
-

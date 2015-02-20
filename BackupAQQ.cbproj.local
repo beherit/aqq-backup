@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>2011-03-26 23:53:59.917.cpp,C:\Users\Beherit\Documents\RAD Studio\Projects\Unit1.cpp=D:\C++ Projects\BackupAQQ_\Nowy folder\Unit1.cpp</Transaction>
-    <Transaction>2011-03-26 23:53:59.917.h,C:\Users\Beherit\Documents\RAD Studio\Projects\Unit1.h=D:\C++ Projects\BackupAQQ_\Nowy folder\Unit1.h</Transaction>
-    <Transaction>2011-03-26 23:53:59.917.dfm,C:\Users\Beherit\Documents\RAD Studio\Projects\Unit1.dfm=D:\C++ Projects\BackupAQQ_\Nowy folder\Unit1.dfm</Transaction>
-    <Transaction>2011-03-26 23:54:04.082.cbproj,C:\Users\Beherit\Documents\RAD Studio\Projects\Project1.cbproj=D:\C++ Projects\BackupAQQ_\Nowy folder\BackupAQQ.cbproj</Transaction>
-    <Transaction>2011-03-26 23:56:58.935.cpp,D:\C++ Projects\BackupAQQ_\Nowy folder\Unit1.cpp=</Transaction>
-    <Transaction>2011-03-26 23:56:58.935.dfm,D:\C++ Projects\BackupAQQ_\Nowy folder\Unit1.dfm=</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.380,=C:\Users\Beherit\Documents\RAD Studio\Projects\Project1PCH1.h</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.009,=C:\Users\Beherit\Documents\RAD Studio\Projects\Project1PCH1.h</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.490,=C:\Users\Beherit\Documents\RAD Studio\Projects\Unit1.cpp</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.028,=C:\Users\Beherit\Documents\RAD Studio\Projects\Unit1.cpp</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.743,D:\Dropbox\Projects\AQQ\Programs\BackupAQQ\new\BackupAQQ.cbproj=C:\Users\Beherit\Documents\RAD Studio\Projects\Project1.cbproj</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.006,D:\Dropbox\Projects\AQQ\Programs\BackupAQQ\new\BackupAQQFrm.dfm=C:\Users\Beherit\Documents\RAD Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.754,D:\Dropbox\Projects\AQQ\Programs\BackupAQQ\new\BackupAQQPCH.h=C:\Users\Beherit\Documents\RAD Studio\Projects\Project1PCH1.h</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.006,D:\Dropbox\Projects\AQQ\Programs\BackupAQQ\new\BackupAQQFrm.cpp=C:\Users\Beherit\Documents\RAD Studio\Projects\Unit1.cpp</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.006,D:\Dropbox\Projects\AQQ\Programs\BackupAQQ\new\BackupAQQFrm.h=C:\Users\Beherit\Documents\RAD Studio\Projects\Unit1.h</Transaction>
   </Transactions>
 </BorlandProject>

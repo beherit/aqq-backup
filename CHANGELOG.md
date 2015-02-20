@@ -1,3 +1,15 @@
+3.0.0.0
+-----
+* Przepisanie programu pod kompilator Embarcadero C++ Builder XE3. 
+* Pełne skórkowanie okna programu wykorzystując styl AQQ.
+* Aktualizacja komponentu ZipForge.
+* Zmiana ikonki programu.
+* Rezygnacja z wątków podczas tworzenia/przywracania kopii zapasowej profilu.
+* Poprawa działania programu uruchamianego z parametrem -backup.
+* Zapisywanie w rejestrze ścieżki, gdzie mają być zapisywane kopie zapasowe.
+* Zablokowanie możliwości zamknięcia aplikacji podczas tworzenia/przywracania kopii zapasowej.
+* Inne mniej ważne poprawki optymalizacyjne oraz kosmetyczne.
+
 2.1.1.0
 -----
 * Tworzenie struktury katalogów dla profili AQQ w folderze użytkownika Windows.
