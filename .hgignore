@@ -1,0 +1,7 @@
+# use glob syntax.
+syntax: glob
+
+*.local
+__history\*
+Win32\Release\*
+Win32\Debug\*
