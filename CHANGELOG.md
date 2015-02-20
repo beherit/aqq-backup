@@ -1,3 +1,12 @@
+3.1.0.0
+-----
+* Obsługa nowej ścieżki profili AQQ.
+* Optymalizacja pokazywania postępu tworzenia/przywracania kopii zapasowej.
+* Inne poprawki optymalizacyjne i kosmetyczne.
+* Aktualizacja skórki z AQQ.
+* Aktualizacja komponentu ZipForge do nowszej wersji (6.50).
+* Aktualizacja komponentów AlphaControls do nowszej wersji (9.20).
+
 3.0.0.0
 -----
 * Przepisanie programu pod kompilator Embarcadero C++ Builder XE3. 
