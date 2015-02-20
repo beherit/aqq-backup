@@ -1,3 +1,9 @@
+2.0.0.0
+-----
+* Przepisanie programu pod kompilator Embarcadero C++ Builder 2010.
+* Poprawki w kodzie.
+* Informacja o wyłączeniu AQQ przy przywracaniu/tworzeniu kopii profilu AQQ.
+
 1.0.1.0
 -----
 * Dodano informację o postępie.
