@@ -89,14 +89,14 @@ __published:	// IDE-managed Components
 	void __fastcall aBackupProfileExecute(TObject *Sender);
 	void __fastcall aCommandBackupProfileExecute(TObject *Sender);
 	void __fastcall ZipForgeFileProgress(TObject *Sender, UnicodeString FileName, double Progress,
-		  TZFProcessOperation Operation, TZFProgressPhase ProgressPhase, bool &Cancel);
+			TZFProcessOperation Operation, TZFProgressPhase ProgressPhase, bool &Cancel);
 	void __fastcall ZipForgeOverallProgress(TObject *Sender, double Progress, TZFProcessOperation Operation,
-          TZFProgressPhase ProgressPhase, bool &Cancel);
+					TZFProgressPhase ProgressPhase, bool &Cancel);
 	void __fastcall BrowseButtonClick(TObject *Sender);
 	void __fastcall sOpenDialogCanClose(TObject *Sender, bool &CanClose);
 	void __fastcall WizzardTabSheetShow(TObject *Sender);
 	void __fastcall sDirectoryEditAfterDialog(TObject *Sender, UnicodeString &Name,
-          bool &Action);
+					bool &Action);
 	void __fastcall ProfilesListBoxClick(TObject *Sender);
 	void __fastcall sDirectoryEditChange(TObject *Sender);
 	void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
