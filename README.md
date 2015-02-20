@@ -1,5 +1,5 @@
 # BackupAQQ
-BackupAQQ to proste narzędzie umożliwiające zrobienie kopii dowolnego profilu [AQQ](http://www.aqq.eu/pl.php). jak i przywrócenie jej w mgnieniu oka. Program jest skierowany głównie do mniej zaawansowanych użytkowników.
+BackupAQQ to proste narzędzie umożliwiające zrobienie kopii dowolnego profilu [AQQ](http://www.aqq.eu/pl.php) jak i przywrócenie jej w mgnieniu oka. Program jest skierowany głównie do mniej zaawansowanych użytkowników.
 
 ### Wymagania
 Do skompilowania programu BackupAQQ potrzebne jest:
