@@ -47,8 +47,8 @@
 #pragma resource "*.dfm"
 TBackupAQQForm *BackupAQQForm;
 //---------------------------------------------------------------------------
-UnicodeString ProfilesPath; //Sciezka profili
-UnicodeString UserProfilePath; //Sciezka profili
+UnicodeString ProfilesPath; //Sciezka profili AQQ
+UnicodeString WindowsLocalAppDataPath; //Sciezka danych lokalnych aplikacji w profilu Windows
 UnicodeString CommandLine[3]; //Komendy przekazane wraz z uruchomieniem
 //---------------------------------------------------------------------------
 
@@ -158,7 +158,7 @@ void __fastcall TBackupAQQForm::aGetProfilesExecute(TObject *Sender)
 {
 	//Usuwanie wczesniej wczytanej listy
 	ProfilesListBox->Clear();
-	//Pobieranie folderu zainstalowania AQQ z rejestru
+	//Pobieranie z rejestru folderu zainstalowania AQQ
 	TRegistry *Reg = new TRegistry();
 	Reg->RootKey = HKEY_CURRENT_USER;
 	//W rejestrze znajduje sie klucz dodany przez AQQ
@@ -172,45 +172,48 @@ void __fastcall TBackupAQQForm::aGetProfilesExecute(TObject *Sender)
 		if(DirectoryExists(ProfilesPath))
 			FindDirectories(ProfilesListBox,ProfilesPath);
 		//Profile trzymane w profilu uzytkownika Windows
-		else
-		{
-			//Pobieranie sciezki profilu uzytkownika w Windowsie
-			LPITEMIDLIST pidlItem;
-			LPMALLOC pShellMalloc;
-			wchar_t szPath[MAX_PATH] = L"";
-			if(SUCCEEDED(SHGetMalloc(&pShellMalloc)))
-			{
-				if(SUCCEEDED(SHGetSpecialFolderLocation(NULL, CSIDL_PROFILE, &pidlItem)))
-				{
-					if(SHGetPathFromIDList(pidlItem, szPath)) ProfilesPath = (wchar_t*)szPath;
-					pShellMalloc->Free(pidlItem);
-				}
-			}
-			pShellMalloc->Release();
-			UserProfilePath = ProfilesPath;
-			ProfilesPath = ProfilesPath+"\\Wapster\\AQQ Folder\\Profiles\\";
-			//Wywolanie funkcji szukajacej profile
+		else goto LOCAL_PROFILES;
+	}
+	else if(Reg->KeyExists("\\Software\\MyPortal\\AQQ"))
+	{
+		//Odczyt klucza ze sciezka AQQ.exe
+		Reg->OpenKey("\\Software\\MyPortal\\AQQ",true);
+		ProfilesPath = Reg->ReadString("Path");
+		ProfilesPath = ExtractFilePath(ProfilesPath) + "Profiles\\";
+		//Profile znajduja sie w glownym folderze AQQ
+		if(DirectoryExists(ProfilesPath))
 			FindDirectories(ProfilesListBox,ProfilesPath);
-		}
+		//Profile trzymane w profilu uzytkownika Windows
+		else goto LOCAL_PROFILES;
 	}
 	//Nie odnaleziono klucza w rejestrze
 	else
 	{
-		//Pobieranie sciezki profilu uzytkownika w Windowsie
+		//Skok do szukania lokalnych profili AQQ w profilu uzytkownika Windows
+		LOCAL_PROFILES:
+		//Zmienne specjalnych sciezek uzytkownika w Windowsie
+		UnicodeString LocalAppData, LocalProfile;
+		//Pobieranie specjalnych sciezek uzytkownika w Windowsie
 		LPITEMIDLIST pidlItem;
 		LPMALLOC pShellMalloc;
 		wchar_t szPath[MAX_PATH] = L"";
 		if(SUCCEEDED(SHGetMalloc(&pShellMalloc)))
 		{
+			if(SUCCEEDED(SHGetSpecialFolderLocation(NULL, CSIDL_LOCAL_APPDATA, &pidlItem)))
+				if(SHGetPathFromIDList(pidlItem, szPath)) LocalAppData = (wchar_t*)szPath;
 			if(SUCCEEDED(SHGetSpecialFolderLocation(NULL, CSIDL_PROFILE, &pidlItem)))
-			{
-				if(SHGetPathFromIDList(pidlItem, szPath)) ProfilesPath = (wchar_t*)szPath;
-				pShellMalloc->Free(pidlItem);
-			}
+				if(SHGetPathFromIDList(pidlItem, szPath)) LocalProfile = (wchar_t*)szPath;
 		}
+		pShellMalloc->Free(pidlItem);
 		pShellMalloc->Release();
-		UserProfilePath = ProfilesPath;
-		ProfilesPath = ProfilesPath+"\\Wapster\\AQQ Folder\\Profiles\\";
+		//Ustalanie sciezki profilow AQQ
+		if(DirectoryExists(LocalProfile+"\\Wapster\\AQQ Folder\\Profiles\\"))
+			ProfilesPath = LocalProfile+"\\Wapster\\AQQ Folder\\Profiles\\";
+		else
+		{
+			WindowsLocalAppDataPath = LocalAppData;
+			ProfilesPath = LocalAppData+"\\MyPortal\\AQQ Folder\\Profiles\\";
+		}
 		//Wywolanie funkcji szukajacej profile
 		FindDirectories(ProfilesListBox,ProfilesPath);
 	}
@@ -393,15 +396,15 @@ void __fastcall TBackupAQQForm::aRestoreProfile(UnicodeString FileName)
 	CloseButton->Enabled = false;
 	//Zmiana aktywnej planszy
 	PageControl->ActivePage = ProgressTabSheet;
-	//Tworzenie struktury katalogow w profilu uzytkownika Windows
-	if(!UserProfilePath.IsEmpty())
+	//Tworzenie struktury katalogow profilow AQQ
+	if(!DirectoryExists(ProfilesPath))
 	{
-		if(!DirectoryExists(UserProfilePath + "\\Wapster"))
-			CreateDir(UserProfilePath + "\\Wapster");
-		if(!DirectoryExists(UserProfilePath + "\\Wapster\\AQQ Folder"))
-			CreateDir(UserProfilePath + "\\Wapster\\AQQ Folder");
-		if(!DirectoryExists(UserProfilePath + "\\Wapster\\AQQ Folder\\Profiles"))
-			CreateDir(UserProfilePath + "\\Wapster\\AQQ Folder\\Profiles");
+		if(!DirectoryExists(WindowsLocalAppDataPath + "\\MyPortal"))
+			CreateDir(WindowsLocalAppDataPath + "\\MyPortal");
+		if(!DirectoryExists(WindowsLocalAppDataPath + "\\MyPortal\\AQQ Folder"))
+			CreateDir(WindowsLocalAppDataPath + "\\MyPortal\\AQQ Folder");
+		if(!DirectoryExists(WindowsLocalAppDataPath + "\\MyPortal\\AQQ Folder\\Profiles"))
+			CreateDir(WindowsLocalAppDataPath + "\\MyPortal\\AQQ Folder\\Profiles");
 	}
 	//Resetowanie paska postepu
 	ProgressBar->Position = 0;
@@ -568,7 +571,7 @@ void __fastcall TBackupAQQForm::ZipForgeFileProgress(TObject *Sender, UnicodeStr
 	//Usuwanie zbednych sciezek
 	if(ProfilesListBox->Count) FileName = StringReplace(FileName, ProfilesPath+ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex], "...", TReplaceFlags() << rfReplaceAll);
 	else FileName = "...\\" + FileName;
-	//Skracanie tekstu z podstepem
+	//Skracanie tekstu z postepem
 	if(FileName.Length()>56)
 	{
 		FileName.SetLength(53);
