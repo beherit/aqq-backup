@@ -79,7 +79,7 @@
         <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <BCC_PCHName_Clang>BackupAQQPCH.h</BCC_PCHName_Clang>
+        <BCC_PCHName_Clang>BackupAQQ.h</BCC_PCHName_Clang>
         <PackageImports>bindcompfmx;acnt_R;fmx;rtl;dbrtl;IndySystem;TeeDB;bindcomp;inetdb;vclib;DBXInterBaseDriver;Tee;DataSnapCommon;dclZipForged17;xmlrtl;ibxpress;DbxCommonDriver;vclimg;IndyProtocols;dbxcds;MetropolisUILiveTile;vclactnband;bindengine;vcldb;soaprtl;bindcompdbx;vcldsnap;bindcompvcl;TeeUI;vclie;vcltouch;websnap;CustomIPTransport;VclSmp;dsnap;IndyIPServer;vclZipForged21;fmxase;vcl;IndyCore;IndyIPCommon;dsnapcon;inet;fmxobj;vclx;inetdbxpress;webdsnap;fmxdae;adortl;dbexpress;IndyIPClient;$(PackageImports)</PackageImports>
         <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
     </PropertyGroup>
@@ -123,21 +123,21 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <BCC_PCHName_Clang>BackupAQQPCH.h</BCC_PCHName_Clang>
+        <BCC_PCHName_Clang>BackupAQQ.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="BackupAQQ.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
+        <PCHCompile Include="BackupAQQ.h">
+            <BuildOrder>1</BuildOrder>
+        </PCHCompile>
         <CppCompile Include="BackupAQQFrm.cpp">
             <Form>BackupAQQForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>BackupAQQFrm.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
-        <PCHCompile Include="BackupAQQPCH.h">
-            <BuildOrder>1</BuildOrder>
-        </PCHCompile>
         <FormResources Include="BackupAQQFrm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
