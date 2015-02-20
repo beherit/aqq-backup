@@ -39,11 +39,11 @@
 #pragma link "sLabel"
 #pragma link "sListBox"
 #pragma link "sMaskEdit"
+#pragma link "sPageControl"
 #pragma link "sRadioButton"
 #pragma link "sSkinManager"
-#pragma link "sTooledit"
+#pragma link "sToolEdit"
 #pragma link "ZipForge"
-#pragma link "sPageControl"
 #pragma resource "*.dfm"
 TBackupAQQForm *BackupAQQForm;
 //---------------------------------------------------------------------------
