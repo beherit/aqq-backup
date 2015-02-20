@@ -4,8 +4,8 @@ object BackupAQQForm: TBackupAQQForm
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'BackupAQQ 3.0'
-  ClientHeight = 314
-  ClientWidth = 358
+  ClientHeight = 326
+  ClientWidth = 370
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -151,24 +151,28 @@ object BackupAQQForm: TBackupAQQForm
   Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
   OnShow = FormShow
+  DesignSize = (
+    370
+    326)
   PixelsPerInch = 96
   TextHeight = 13
   object Bevel: TsBevel
     Left = 0
-    Top = 276
-    Width = 358
-    Height = 38
+    Top = 289
+    Width = 370
+    Height = 37
     Align = alBottom
     Shape = bsTopLine
-    ExplicitLeft = -44
-    ExplicitTop = 193
-    ExplicitWidth = 414
+    ExplicitLeft = -418
+    ExplicitTop = 277
+    ExplicitWidth = 776
   end
   object PageControl: TsPageControl
-    Left = 0
-    Top = 0
+    AlignWithMargins = True
+    Left = 6
+    Top = 6
     Width = 358
-    Height = 276
+    Height = 277
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6
@@ -179,6 +183,12 @@ object BackupAQQForm: TBackupAQQForm
     SkinData.SkinSection = 'PAGECONTROL'
     object WizzardTabSheet: TsTabSheet
       Caption = 'WizzardTabSheet'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
       TabVisible = False
       OnShow = WizzardTabSheetShow
       SkinData.CustomColor = False
@@ -2334,7 +2344,7 @@ object BackupAQQForm: TBackupAQQForm
         Left = 10
         Top = 10
         Width = 330
-        Height = 246
+        Height = 247
         Margins.Left = 10
         Margins.Top = 10
         Margins.Right = 10
@@ -6541,30 +6551,33 @@ object BackupAQQForm: TBackupAQQForm
     end
   end
   object CloseButton: TsButton
-    Left = 279
-    Top = 285
+    Left = 291
+    Top = 297
     Width = 75
     Height = 25
+    Anchors = [akRight, akBottom]
     Caption = 'Zamknij'
     TabOrder = 3
     OnClick = aExitExecute
     SkinData.SkinSection = 'BUTTON'
   end
   object NextButton: TsButton
-    Left = 198
-    Top = 285
+    Left = 210
+    Top = 297
     Width = 75
     Height = 25
+    Anchors = [akRight, akBottom]
     Caption = 'Dalej'
     TabOrder = 2
     OnClick = NextButtonClick
     SkinData.SkinSection = 'BUTTON'
   end
   object PreviousButton: TsButton
-    Left = 117
-    Top = 285
+    Left = 129
+    Top = 297
     Width = 75
     Height = 25
+    Anchors = [akRight, akBottom]
     Caption = 'Wstecz'
     Enabled = False
     TabOrder = 1
@@ -7644,6 +7657,7 @@ object BackupAQQForm: TBackupAQQForm
     ThirdParty.ThirdScrollBar = ' '#13#10
     ThirdParty.ThirdStaticText = ' '#13#10
     ThirdParty.ThirdNativePaint = ' '#13#10
+    OnSysDlgInit = sSkinManagerSysDlgInit
     Top = 248
   end
   object ZipForge: TZipForge

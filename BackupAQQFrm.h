@@ -53,7 +53,6 @@
 class TBackupAQQForm : public TForm
 {
 __published:	// IDE-managed Components
-	TsBevel *Bevel;
 	TsSkinManager *sSkinManager;
 	TsPageControl *PageControl;
 	TsTabSheet *WizzardTabSheet;
@@ -84,6 +83,7 @@ __published:	// IDE-managed Components
 	TFileListBox *BackupsFileListBox;
 	TsOpenDialog *sOpenDialog;
 	TTaskbar *Taskbar;
+	TsBevel *Bevel;
 	void __fastcall aExitExecute(TObject *Sender);
 	void __fastcall aGetProfilesExecute(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
@@ -102,6 +102,8 @@ __published:	// IDE-managed Components
 	void __fastcall ProfilesListBoxClick(TObject *Sender);
 	void __fastcall sDirectoryEditChange(TObject *Sender);
 	void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
+	void __fastcall sSkinManagerSysDlgInit(TacSysDlgData DlgData, bool &AllowSkinning);
+
 private:	// User declarations
 	void __fastcall FindDirectories(TListBox* ListBox, UnicodeString Path);
 	void __fastcall DeleteFiles(UnicodeString Path);
