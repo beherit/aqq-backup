@@ -61,6 +61,16 @@ __published:	// IDE-managed Components
         TIdThreadComponent *BackupIdThreadComponent;
         TIdThreadComponent *RestoreIdThreadComponent;
         TIdThreadComponent *ManualRestoreIdThreadComponent;
+        TTimer *GetProgressTimer;
+        TProgressBar *ProgressBar;
+        TProgressBar *ProgressBar2;
+        TCheckBox *PluginsCheckBox;
+        TCheckBox *ThemesCheckBox;
+        TCheckBox *SmileysCheckBox;
+        TCheckBox *CustomEmotsCheckBox;
+        TCheckBox *IncomingCheckBox;
+        TCheckBox *TempCheckBox;
+        TLabel *Label1;
         void __fastcall aGetProfilesListExecute(TObject *Sender);
         void __fastcall FormShow(TObject *Sender);
         void __fastcall ExitButtonClick(TObject *Sender);
@@ -77,6 +87,7 @@ __published:	// IDE-managed Components
           TIdCustomThreadComponent *Sender);
         void __fastcall ManualRestoreIdThreadComponentRun(
           TIdCustomThreadComponent *Sender);
+        void __fastcall GetProgressTimerTimer(TObject *Sender);
 private:	// User declarations
         void __fastcall FindDir(TListBox *lista, AnsiString Dir);
 public:		// User declarations
