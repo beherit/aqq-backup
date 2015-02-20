@@ -58,7 +58,7 @@ IncludeVerInfo=1
 AutoIncBuild=0
 MajorVer=1
 MinorVer=0
-Release=0
+Release=1
 Build=0
 Debug=0
 PreRelease=0
@@ -71,13 +71,13 @@ CodePage=1250
 [Version Info Keys]
 CompanyName=Krzysztof Grochocki (Beherit)
 FileDescription=
-FileVersion=1.0.0.0
+FileVersion=1.0.1.0
 InternalName=BackupAQQ
 LegalCopyright=Krzysztof Grochocki (Beherit)
 LegalTrademarks=Krzysztof Grochocki (Beherit)
 OriginalFilename=BackupAQQ.exe
 ProductName=BackupAQQ
-ProductVersion=1.0.0.0
+ProductVersion=1.0.1.0
 Comments=Proste tworzenie i przywracanie kopii profili AQQ
 
 [HistoryLists\hlIncludePath]

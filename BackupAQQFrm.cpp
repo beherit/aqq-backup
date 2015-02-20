@@ -1,10 +1,9 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
-
 #include <ShlObj.h>
 #include <shellapi.h>
 #include <Registry.hpp>
-
+#include <tlhelp32.h>
 #pragma hdrstop
 #include "BackupAQQFrm.h"
 //---------------------------------------------------------------------------
@@ -23,7 +22,13 @@
 #pragma resource "*.dfm"
 TBackupAQQForm *BackupAQQForm;
 //---------------------------------------------------------------------------
-AnsiString ProfilesPath;
+AnsiString ProfilesPath; //do sciezki profilów
+
+char this_title[2048];  //do nazwy/tekstu okna
+AnsiString Progress; //j.w.
+HWND Hwnd; //do uchwytu okna 7-Zip
+DWORD procesID;
+AnsiString ExeName;
 //---------------------------------------------------------------------------
 __fastcall TBackupAQQForm::TBackupAQQForm(TComponent* Owner)
         : TForm(Owner)
@@ -269,8 +274,34 @@ void __fastcall TBackupAQQForm::BackupIdThreadComponentRun(
   TDateTime Todey = TDateTime::CurrentDate();
   AnsiString BackupName = BrowseEdit->Path + "\\" + ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex] + "_" + Todey +".aqqbackup";
 
+  ProgressBar->Position=0;
+  ProgressBar->Visible=true;
+  Hwnd=NULL;
+  GetProgressTimer->Enabled=true;
+
+  AnsiString Exclude;
+
+  if(PluginsCheckBox->Checked==true)
+   Exclude = Exclude + " -x!" + AnsiQuotedStr("*\\Plugins",'"');
+  if(ThemesCheckBox->Checked==true)
+   Exclude = Exclude + " -x!" + AnsiQuotedStr("*\\Themes",'"');
+  if(SmileysCheckBox->Checked==true)
+   Exclude = Exclude + " -x!" + AnsiQuotedStr("*\\Smileys",'"');
+  if(CustomEmotsCheckBox->Checked==true)
+   Exclude = Exclude + " -x!" + AnsiQuotedStr("*\\CustomEmots",'"');
+  if(TempCheckBox->Checked==true)
+   Exclude = Exclude + " -x!" + AnsiQuotedStr("*\\Data\\Temp",'"');
+  if(IncomingCheckBox->Checked==true)
+   Exclude = Exclude + " -x!" + AnsiQuotedStr("*\\Incoming",'"');
+
   //Oczekiwanie na zakonczenie procesu
-  ExecuteApplication((ExtractFilePath(Application->ExeName)+"7z.exe"),("a " + AnsiQuotedStr(BackupName,'"') + " " + AnsiQuotedStr((ProfilesPath+ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex]),'"')), this);
+  if(Exclude.Length()>0)
+   ExecuteApplication((ExtractFilePath(Application->ExeName)+"7z.exe"),("a " + AnsiQuotedStr(BackupName,'"') + " " + AnsiQuotedStr((ProfilesPath+ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex]),'"')) + Exclude, this);
+  else
+   ExecuteApplication((ExtractFilePath(Application->ExeName)+"7z.exe"),("a " + AnsiQuotedStr(BackupName,'"') + " " + AnsiQuotedStr((ProfilesPath+ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex]),'"')), this);
+
+  ProgressBar->Visible=false;
+  GetProgressTimer->Enabled=false;
 
   BackupLabel->Caption="Zakoñczono! BackupAQQ zrobi³ kopiê profilu " + AnsiQuotedStr(ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex], '"') + " do pliku " + AnsiQuotedStr(ExtractFileName(BackupName), '"') + ".";
 
@@ -297,9 +328,17 @@ void __fastcall TBackupAQQForm::RestoreIdThreadComponentRun(
     //profile w g³ównym folderze AQQ
     if(DirectoryExists(ProfilesPath))
     {
+      ProgressBar2->Position=0;
+      ProgressBar2->Visible=true;
+      Hwnd=NULL;
+      GetProgressTimer->Enabled=true;
+
       //Oczekiwanie na zakonczenie procesu
       ExecuteApplication((ExtractFilePath(Application->ExeName)+"7z.exe"),("x -y -o" + AnsiQuotedStr(ProfilesPath,'"') + " " + AnsiQuotedStr(BackupsFileListBox->FileName,'"')), this);
       ProfilesInAQQExePath=1;
+
+      ProgressBar2->Visible=false;
+      GetProgressTimer->Enabled=false;
     }
   }
   Reg->CloseKey();
@@ -324,8 +363,16 @@ void __fastcall TBackupAQQForm::RestoreIdThreadComponentRun(
 
     ProfilesPath=ProfilesPath+"\\Wapster\\AQQ Folder\\Profiles\\";
 
+    ProgressBar2->Position=0;
+    ProgressBar2->Visible=true;
+    Hwnd=NULL;
+    GetProgressTimer->Enabled=true;
+
     //Oczekiwanie na zakonczenie procesu
     ExecuteApplication((ExtractFilePath(Application->ExeName)+"7z.exe"),("x -y -o" + AnsiQuotedStr(ProfilesPath,'"') + " " + AnsiQuotedStr(BackupsFileListBox->FileName,'"')), this);
+
+    ProgressBar2->Visible=false;
+    GetProgressTimer->Enabled=false;
   }
 
   RestoreLabel->Caption="Zakoñczono! BackupAQQ pomyœlnie przywróci³ kopiê profilu AQQ z pliku " + AnsiQuotedStr(ExtractFileName(BackupsFileListBox->FileName),'"') + ".";
@@ -353,9 +400,17 @@ void __fastcall TBackupAQQForm::ManualRestoreIdThreadComponentRun(
     //profile w g³ównym folderze AQQ
     if(DirectoryExists(ProfilesPath))
     {
+      ProgressBar2->Position=0;
+      ProgressBar2->Visible=true;
+      Hwnd=NULL;
+      GetProgressTimer->Enabled=true;
+
       //Oczekiwanie na zakonczenie procesu
       ExecuteApplication((ExtractFilePath(Application->ExeName)+"7z.exe"),("x -y -o" + AnsiQuotedStr(ProfilesPath,'"') + " " + AnsiQuotedStr(OpenDialog->FileName,'"')), this);
       ProfilesInAQQExePath=1;
+
+      ProgressBar2->Visible=false;
+      GetProgressTimer->Enabled=false;
     }
   }
   Reg->CloseKey();
@@ -380,8 +435,16 @@ void __fastcall TBackupAQQForm::ManualRestoreIdThreadComponentRun(
 
     ProfilesPath=ProfilesPath+"\\Wapster\\AQQ Folder\\Profiles\\";
 
+    ProgressBar2->Position=0;
+    ProgressBar2->Visible=true;
+    Hwnd=NULL;
+    GetProgressTimer->Enabled=true;
+
     //Oczekiwanie na zakonczenie procesu
     ExecuteApplication((ExtractFilePath(Application->ExeName)+"7z.exe"),("x -y -o" + AnsiQuotedStr(ProfilesPath,'"') + " " + AnsiQuotedStr(OpenDialog->FileName,'"')), this);
+
+    ProgressBar2->Visible=false;
+    GetProgressTimer->Enabled=false;
   }  
   RestoreLabel->Caption="Zakoñczono! BackupAQQ pomyœlnie przywróci³ kopiê profilu AQQ z pliku " + AnsiQuotedStr(ExtractFileName(BackupsFileListBox->FileName),'"') + ".";
 
@@ -392,4 +455,56 @@ void __fastcall TBackupAQQForm::ManualRestoreIdThreadComponentRun(
 }
 //---------------------------------------------------------------------------
 
+//Pobieranie sciezki procesu po PID
+AnsiString GetPathOfProces(DWORD PID)
+{
+  HANDLE hSnapshot=CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,PID);
+  MODULEENTRY32 me32;
+  Module32First(hSnapshot,&me32);
 
+  CloseHandle(hSnapshot);
+
+  return me32.szExePath;
+}
+//---------------------------------------------------------------------------
+
+//Szukanie okna 7-Zip
+bool CALLBACK Find7Zip(HWND hWnd)
+{
+  GetClassName(hWnd, this_title, sizeof(this_title));
+  GetWindowThreadProcessId(hWnd, &procesID);
+
+  Progress = this_title;
+
+  ExeName = GetPathOfProces(procesID);
+
+  if(ExtractFileName(ExeName)=="7z.exe")
+  {
+    if(Progress=="#32770")
+     Hwnd = hWnd;
+  }
+  
+  return true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TBackupAQQForm::GetProgressTimerTimer(TObject *Sender)
+{
+  if(Hwnd==NULL)
+   EnumWindows((WNDENUMPROC)Find7Zip,0);
+
+  if(Hwnd!=NULL)
+  {
+    GetWindowText(Hwnd,this_title,sizeof(this_title));
+
+    Progress = this_title;
+
+    if(AnsiPos("% ",Progress)>0)
+    {
+      Progress.Delete(AnsiPos("% ",Progress),Progress.Length());
+      ProgressBar->Position=StrToInt(Progress);
+      ProgressBar2->Position=StrToInt(Progress);
+    }
+  }
+}
+//---------------------------------------------------------------------------
