@@ -49,7 +49,7 @@ TBackupAQQForm *BackupAQQForm;
 //---------------------------------------------------------------------------
 UnicodeString ProfilesPath; //Sciezka profili AQQ
 UnicodeString WindowsLocalAppDataPath; //Sciezka danych lokalnych aplikacji w profilu Windows
-UnicodeString CommandLine[3]; //Komendy przekazane wraz z uruchomieniem
+UnicodeString CommandLine[3]; //Komendy przekazane wraz z uruchomieniem aplikacji
 //---------------------------------------------------------------------------
 
 __fastcall TBackupAQQForm::TBackupAQQForm(TComponent* Owner)
@@ -59,7 +59,7 @@ __fastcall TBackupAQQForm::TBackupAQQForm(TComponent* Owner)
 	CommandLine[0] = ParamStr(1);
 	CommandLine[1] = ParamStr(2);
 	CommandLine[2] = ParamStr(3);
-	//Zostaly przekazane jakies parametry
+	//Zostal przekazy parametr wykonania kopii zapasowej
 	if(CommandLine[0]=="-backup")
 	{
 		//Zminimalizowanie aplikacji na starcie
@@ -74,31 +74,28 @@ __fastcall TBackupAQQForm::TBackupAQQForm(TComponent* Owner)
 }
 //---------------------------------------------------------------------------
 
+//Szukanie uruchomionego procesu AQQ.exe
 bool AQQProcessExists()
 {
-	void *Snap;
+	HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS , 0);
 	PROCESSENTRY32 proces;
-
-	Snap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS , 0);
 	proces.dwSize = sizeof(PROCESSENTRY32);
-
-	if(Process32First(Snap , &proces))
+	if(Process32First(hSnapShot , &proces))
 	{
 		do
 		{
-			if(proces.szExeFile[ 0 ] != '[')
+			if(proces.szExeFile[0]!='[')
 			{
 				if(((UnicodeString)proces.szExeFile).LowerCase()=="aqq.exe")
 				{
-					CloseHandle(Snap);
+					CloseHandle(hSnapShot);
 					return true;
 				}
 			}
 		}
-		while(Process32Next(Snap , &proces));
+		while(Process32Next(hSnapShot , &proces));
 	}
-	CloseHandle(Snap);
-
+	CloseHandle(hSnapShot);
 	return false;
 }
 //---------------------------------------------------------------------------
@@ -110,7 +107,7 @@ void __fastcall TBackupAQQForm::FindDirectories(TListBox* ListBox, UnicodeString
 	//Wywolanie szukania we wskazanym katalogu
 	if(!FindFirst(Path + "*.*", faAnyFile, searchResult))
 	{
-		//Jezeli cos znaleziono
+		//Szukanie katalogow/plikow
 		do
 		{
 			//Znaleziony plik spelnia wymagania - jest folderem
@@ -118,11 +115,11 @@ void __fastcall TBackupAQQForm::FindDirectories(TListBox* ListBox, UnicodeString
 				//Dodanie elementu do wskazanego komponentu
 				ListBox->Items->Add(searchResult.Name);
 		}
-		//Szukanie kolejnego katalogu/pliku
 		while(!FindNext(searchResult));
-		//Zakonczenie szukania
-		FindClose(searchResult);
+
 	}
+	//Zakonczenie szukania
+	FindClose(searchResult);
 }
 //---------------------------------------------------------------------------
 
@@ -132,7 +129,7 @@ void __fastcall TBackupAQQForm::DeleteFiles(UnicodeString Path)
 	TSearchRec searchResult;
 	//Przeszukanie katalogu
 	int Result = FindFirst(Path + "*.*", faAnyFile, searchResult);
-	//Gdy w katalogu znajduja sie jakies pliki
+	//W katalogu znajduja sie jakies pliki
 	while(!Result)
 	{
 		//Znaleziony plik spelnia wymagania - nie jest folderem
@@ -161,14 +158,14 @@ void __fastcall TBackupAQQForm::aGetProfilesExecute(TObject *Sender)
 	//Pobieranie z rejestru folderu zainstalowania AQQ
 	TRegistry *Reg = new TRegistry();
 	Reg->RootKey = HKEY_CURRENT_USER;
-	//W rejestrze znajduje sie klucz dodany przez AQQ
+	//W rejestrze znajduje sie klucz instalacji AQQ
 	if(Reg->KeyExists("\\Software\\Wapster\\AQQ"))
 	{
 		//Odczyt klucza ze sciezka AQQ.exe
 		Reg->OpenKey("\\Software\\Wapster\\AQQ",true);
 		ProfilesPath = Reg->ReadString("Path");
 		ProfilesPath = ExtractFilePath(ProfilesPath) + "Profiles\\";
-		//Profile znajduja sie w glownym folderze AQQ
+		//Profile znajduja sie w folderze instalacyjnym AQQ
 		if(DirectoryExists(ProfilesPath))
 			FindDirectories(ProfilesListBox,ProfilesPath);
 		//Profile trzymane w profilu uzytkownika Windows
@@ -180,7 +177,7 @@ void __fastcall TBackupAQQForm::aGetProfilesExecute(TObject *Sender)
 		Reg->OpenKey("\\Software\\MyPortal\\AQQ",true);
 		ProfilesPath = Reg->ReadString("Path");
 		ProfilesPath = ExtractFilePath(ProfilesPath) + "Profiles\\";
-		//Profile znajduja sie w glownym folderze AQQ
+		//Profile znajduja sie w folderze instalacyjnym AQQ
 		if(DirectoryExists(ProfilesPath))
 			FindDirectories(ProfilesListBox,ProfilesPath);
 		//Profile trzymane w profilu uzytkownika Windows
@@ -214,7 +211,7 @@ void __fastcall TBackupAQQForm::aGetProfilesExecute(TObject *Sender)
 			WindowsLocalAppDataPath = LocalAppData;
 			ProfilesPath = LocalAppData+"\\MyPortal\\AQQ Folder\\Profiles\\";
 		}
-		//Wywolanie funkcji szukajacej profile
+		//Szukanie profilow AQQ
 		FindDirectories(ProfilesListBox,ProfilesPath);
 	}
 	Reg->CloseKey();
@@ -310,26 +307,33 @@ void __fastcall TBackupAQQForm::aCommandBackupProfileExecute(TObject *Sender)
 	if(DirectoryExists(ProfilesPath + "\\" + ProfileName))
 	{
 		//Pobieranie sciezki folderu kopii zapasowej z rejestru
-		UnicodeString BackupDefPath;
 		if(BackupPath.IsEmpty())
 		{
 			TRegistry *Reg = new TRegistry();
 			Reg->RootKey = HKEY_CURRENT_USER;
-			//W rejestrze znajduje sie klucz dodany przez AQQ
-			if(Reg->KeyExists("\\Software\\Wapster\\AQQ"))
+			//W rejestrze znajduje sie klucz instalacji AQQ
+			if(Reg->KeyExists("\\Software\\MyPortal\\AQQ"))
+			{
+				//Odczyt klucza ze sciezka folderu kopii zapasowej
+				Reg->OpenKey("\\Software\\MyPortal\\AQQ",true);
+				if(!Reg->ReadString("BackupAQQ").IsEmpty()) BackupPath = Reg->ReadString("BackupAQQ");
+				//Ustawianie domyslnego folder z plikami backup
+				if(BackupPath.IsEmpty()) BackupPath = ExtractFilePath(Application->ExeName) + "\Backups";
+			}
+			else if(Reg->KeyExists("\\Software\\Wapster\\AQQ"))
 			{
 				//Odczyt klucza ze sciezka folderu kopii zapasowej
 				Reg->OpenKey("\\Software\\Wapster\\AQQ",true);
-				if(!Reg->ReadString("BackupAQQ").IsEmpty()) BackupDefPath = Reg->ReadString("BackupAQQ");
+				BackupPath = Reg->ReadString("BackupAQQ");
 				//Ustawianie domyslnego folder z plikami backup
-				else BackupDefPath = ExtractFilePath(Application->ExeName) + "\Backups";
+				if(BackupPath.IsEmpty()) BackupPath = ExtractFilePath(Application->ExeName) + "\Backups";
 			}
 			//Ustawianie domyslnego folder z plikami backup
-			else BackupDefPath = ExtractFilePath(Application->ExeName) + "\Backups";
+			else BackupPath = ExtractFilePath(Application->ExeName) + "\Backups";
 			Reg->CloseKey();
 			delete Reg;
 			//Tworzenie zdefiniowanego folderu z plikami backup
-			if(!DirectoryExists(BackupDefPath)) CreateDir(BackupDefPath);
+			if(!DirectoryExists(BackupPath)) CreateDir(BackupPath);
 		}
 		//Ustawianie poczatkowego hinta
 		TrayIcon->Hint = "Tworzenie kopii zapasowej profilu \"" + CommandLine[1] + "\" - 0%";
@@ -341,11 +345,7 @@ void __fastcall TBackupAQQForm::aCommandBackupProfileExecute(TObject *Sender)
 		TrayIcon->ShowBalloonHint();
 		//Definiowanie nazwy pliku backup
 		TDateTime Today = TDateTime::CurrentDate();
-		UnicodeString BackupName;
-		if(BackupPath.IsEmpty())
-			BackupName = BackupDefPath + "\\" + ProfileName + "_" + Today + ".aqqbackup";
-		else
-			BackupName = BackupPath + "\\" + ProfileName + "_" + Today + ".aqqbackup";
+		UnicodeString BackupName = BackupPath + "\\" + ProfileName + "_" + Today + ".aqqbackup";
 		//Jezeli plik juz istnieje
 		if(FileExists(BackupName))
 		{
@@ -355,10 +355,7 @@ void __fastcall TBackupAQQForm::aCommandBackupProfileExecute(TObject *Sender)
 			while(FileExists(BackupName))
 			{
 				Count++;
-				if(BackupPath.IsEmpty())
-					BackupName = BackupDefPath + "\\" + ProfileName + "_" + Today + "_" + IntToStr(Count) + ".aqqbackup";
-				else
-					BackupName = BackupPath + "\\" + ProfileName + "_" + Today + "_" + IntToStr(Count) + ".aqqbackup";
+				BackupName = BackupPath + "\\" + ProfileName + "_" + Today + "_" + IntToStr(Count) + ".aqqbackup";
 			}
 		}
 		//Usuwanie tymczasowego folderu w profilu
@@ -451,8 +448,17 @@ void __fastcall TBackupAQQForm::WizzardTabSheetShow(TObject *Sender)
 	//Pobieranie sciezki folderu kopii zapasowej z rejestru
 	TRegistry *Reg = new TRegistry();
 	Reg->RootKey = HKEY_CURRENT_USER;
-	//W rejestrze znajduje sie klucz dodany przez AQQ
-	if(Reg->KeyExists("\\Software\\Wapster\\AQQ"))
+	//W rejestrze znajduje sie klucz instalacji AQQ
+	if(Reg->KeyExists("\\Software\\MyPortal\\AQQ"))
+	{
+		//Odczyt klucza ze sciezka folderu kopii zapasowej
+		Reg->OpenKey("\\Software\\MyPortal\\AQQ",true);
+		if(!Reg->ReadString("BackupAQQ").IsEmpty())
+			sDirectoryEdit->Text = Reg->ReadString("BackupAQQ");
+		//Ustawianie domyslnego folder z plikami backup
+		else sDirectoryEdit->Text = ExtractFilePath(Application->ExeName) + "\Backups";
+	}
+	else if(Reg->KeyExists("\\Software\\Wapster\\AQQ"))
 	{
 		//Odczyt klucza ze sciezka folderu kopii zapasowej
 		Reg->OpenKey("\\Software\\Wapster\\AQQ",true);
@@ -606,8 +612,15 @@ void __fastcall TBackupAQQForm::sDirectoryEditAfterDialog(TObject *Sender, Unico
 		//Zapisanie sciezki folderu kopii zapasowej do rejestru
 		TRegistry *Reg = new TRegistry();
 		Reg->RootKey = HKEY_CURRENT_USER;
-		//W rejestrze znajduje sie klucz dodany przez AQQ
-		if(Reg->KeyExists("\\Software\\Wapster\\AQQ"))
+		//W rejestrze znajduje sie klucz instalacji AQQ
+		if(Reg->KeyExists("\\Software\\MyPortal\\AQQ"))
+		{
+			//Odczyt klucza gdzie ma byc zapisana sciezka folderu kopii zapasowej
+			Reg->OpenKey("\\Software\\MyPortal\\AQQ",true);
+			//Zapisywanie sciezki folderu kopii zapasowej
+			Reg->WriteString("BackupAQQ",Name);
+		}
+		else if(Reg->KeyExists("\\Software\\Wapster\\AQQ"))
 		{
 			//Odczyt klucza gdzie ma byc zapisana sciezka folderu kopii zapasowej
 			Reg->OpenKey("\\Software\\Wapster\\AQQ",true);
@@ -634,8 +647,15 @@ void __fastcall TBackupAQQForm::sDirectoryEditChange(TObject *Sender)
 		//Zapisanie sciezki folderu kopii zapasowej do rejestru
 		TRegistry *Reg = new TRegistry();
 		Reg->RootKey = HKEY_CURRENT_USER;
-		//W rejestrze znajduje sie klucz dodany przez AQQ
-		if(Reg->KeyExists("\\Software\\Wapster\\AQQ"))
+		//W rejestrze znajduje sie klucz instalacji AQQ
+		if(Reg->KeyExists("\\Software\\MyPortal\\AQQ"))
+		{
+			//Odczyt klucza gdzie ma byc zapisana sciezka folderu kopii zapasowej
+			Reg->OpenKey("\\Software\\MyPortal\\AQQ",true);
+			//Zapisywanie sciezki folderu kopii zapasowej
+			Reg->WriteString("BackupAQQ",sDirectoryEdit->Text);
+		}
+		else if(Reg->KeyExists("\\Software\\Wapster\\AQQ"))
 		{
 			//Odczyt klucza gdzie ma byc zapisana sciezka folderu kopii zapasowej
 			Reg->OpenKey("\\Software\\Wapster\\AQQ",true);
