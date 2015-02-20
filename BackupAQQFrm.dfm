@@ -3,7 +3,7 @@ object BackupAQQForm: TBackupAQQForm
   Top = 0
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'BackupAQQ 2.1'
+  Caption = 'BackupAQQ 2.1.1'
   ClientHeight = 348
   ClientWidth = 370
   Color = clBtnFace

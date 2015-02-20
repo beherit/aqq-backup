@@ -97,6 +97,7 @@ __published:	// IDE-managed Components
 
 
 
+
 private:	// User declarations
 	void __fastcall FindDir(TListBox *lista, UnicodeString Dir);
 public:		// User declarations
