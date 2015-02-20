@@ -46,14 +46,15 @@
 #include <Vcl.FileCtrl.hpp>
 #include <Vcl.Mask.hpp>
 #include <Vcl.StdCtrls.hpp>
+#include "sPageControl.hpp"
 //---------------------------------------------------------------------------
 class TBackupAQQForm : public TForm
 {
 __published:	// IDE-managed Components
 	TsBevel *Bevel;
 	TsSkinManager *sSkinManager;
-	TPageControl *PageControl;
-	TTabSheet *WizzardTabSheet;
+	TsPageControl *PageControl;
+	TsTabSheet *WizzardTabSheet;
 	TZipForge *ZipForge;
 	TsButton *CloseButton;
 	TsButton *NextButton;
@@ -69,12 +70,12 @@ __published:	// IDE-managed Components
 	TTrayIcon *TrayIcon;
 	TAction *aBackupProfile;
 	TAction *aCommandBackupProfile;
-	TTabSheet *ProgressTabSheet;
+	TsTabSheet *ProgressTabSheet;
 	TsLabel *InfoLabel;
 	TsProgressBar *ProgressBar;
 	TsLabel *ProgressLabel;
 	TImage *Image2;
-	TTabSheet *BackupsListTabSheet;
+	TsTabSheet *BackupsListTabSheet;
 	TImage *Image3;
 	TsLabel *BackupsListLabel;
 	TsButton *BrowseButton;
