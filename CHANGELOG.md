@@ -1,3 +1,12 @@
+2.1.0.0
+-----
+* Zastąpienie programu 7Zip komponentem ZipForge.
+* Informacja o używanej wersji programu.
+* Postęp tworzenia/przywracania profilu pokazywany jest również na pasku zadań.
+* Możliwość uruchomienia aplikacji z parametrem tworzącym od razu kopię zapasową profilu. (-backup profil ewentualna_lokalizacja_backupów). 
+* Brak błędu gdy w folderze Backups nie ma żadnych plików.
+* Usunięto możliwość wykluczania danych rzeczy z kopii zapasowej.
+
 2.0.0.0
 -----
 * Przepisanie programu pod kompilator Embarcadero C++ Builder 2010.

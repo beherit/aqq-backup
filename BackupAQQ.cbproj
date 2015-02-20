@@ -1,6 +1,6 @@
 ﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{F58E4795-6B3E-408F-AAF9-75679DAF85B2}</ProjectGuid>
+			<ProjectGuid>{C854A83B-1963-4127-8079-950735ECADED}</ProjectGuid>
 			<ProjectVersion>12.0</ProjectVersion>
 			<MainSource>BackupAQQ.cpp</MainSource>
 			<Config Condition="'$(Config)'==''">Release</Config>
@@ -20,16 +20,16 @@
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
 			<Multithreaded>true</Multithreaded>
-			<PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;vclimg.bpi;dbrtl.bpi;vcldb.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;lmdrtl10rt_140.bpi;lmdplugin10rt_140.bpi;lmdrtlx10rt_140.bpi;lmdcore10rt_140.bpi</PackageImports>
-			<LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;IndyCore.lib;IndySystem.lib;lmdrtlx10rt_140.lib;lmdrtl10rt_140.lib;lmdcore10rt_140.lib</LinkPackageStatics>
+			<PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;vclimg.bpi;dbrtl.bpi;vcldb.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;intrawebdb_100_140.bpi;Intraweb_100_140.bpi;vclie.bpi;websnap.bpi;webdsnap.bpi;inetdb.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi;vclribbon.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DataSnapIndy10ServerTransport.bpi;DataSnapProviderClient.bpi;DbxClientDriver.bpi;DataSnapServer.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DBXFirebirdDriver.bpi;DBXSybaseASEDriver.bpi;DBXSybaseASADriver.bpi;DBXOracleDriver.bpi;DBXMSSQLDriver.bpi;DBXInformixDriver.bpi;DBXDb2Driver.bpi;lmdrtl10rt_140.bpi;lmdplugin10rt_140.bpi;lmdrtlx10rt_140.bpi;lmdcore10rt_140.bpi</PackageImports>
+			<LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;IndyCore.lib;IndySystem.lib;lmdrtl10rt_140.lib;lmdrtlx10rt_140.lib;lmdcore10rt_140.lib;vclZipForged13.lib</LinkPackageStatics>
 			<ProjectType>CppVCLApplication</ProjectType>
 			<OutputExt>exe</OutputExt>
-			<AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;IndyCore.lib;IndySystem.lib;lmdrtlx10rt_140.lib;lmdrtl10rt_140.lib;lmdcore10rt_140.lib</AllPackageLibs>
+			<AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;IndyCore.lib;IndySystem.lib;lmdrtl10rt_140.lib;lmdrtlx10rt_140.lib;lmdcore10rt_140.lib;vclZipForged13.lib</AllPackageLibs>
 			<FinalOutputDir>.</FinalOutputDir>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
 			<DynamicRTL>true</DynamicRTL>
-			<IncludePath>D:\C++ Projects\BackupAQQ_\2.0.0.0\;$(CG_BOOST_ROOT)\boost\tr1\tr1;$(BDS)\include;$(BDS)\include\dinkumware;$(BDS)\include\vcl;$(CG_BOOST_ROOT);$(IncludePath)</IncludePath>
-			<ILINK_LibraryPath>D:\C++ Projects\BackupAQQ_\2.0.0.0\;$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<IncludePath>$(CG_BOOST_ROOT)\boost\tr1\tr1;$(BDS)\include;$(BDS)\include\dinkumware;$(BDS)\include\vcl;$(CG_BOOST_ROOT);$(IncludePath)</IncludePath>
+			<ILINK_LibraryPath>$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<BCC_wpar>false</BCC_wpar>
 			<BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
 			<BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
@@ -60,17 +60,16 @@
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
-			<CppCompile Include="BackupAQQ.cpp">
-				<BuildOrder>0</BuildOrder>
-			</CppCompile>
-			<ResFiles Include="BackupAQQ.res">
-				<ModuleName>BackupAQQ.res</ModuleName>
-				<BuildOrder>1</BuildOrder>
-			</ResFiles>
 			<CppCompile Include="BackupAQQFrm.cpp">
 				<Form>BackupAQQForm</Form>
 				<DependentOn>BackupAQQFrm.h</DependentOn>
-				<BuildOrder>2</BuildOrder>
+				<BuildOrder>3</BuildOrder>
+			</CppCompile>
+			<ResFiles Include="BackupAQQ.res">
+				<BuildOrder>1</BuildOrder>
+			</ResFiles>
+			<CppCompile Include="BackupAQQ.cpp">
+				<BuildOrder>0</BuildOrder>
 			</CppCompile>
 			<FormResources Include="BackupAQQFrm.dfm"/>
 			<BuildConfiguration Include="Base">
@@ -91,11 +90,14 @@
 			<Borland.ProjectType>CppVCLApplication</Borland.ProjectType>
 			<BorlandProject>
 				<CPlusPlusBuilder.Personality>
+					<Source>
+						<Source Name="MainSource">BackupAQQ.cpp</Source>
+					</Source>
 					<VersionInfo>
 						<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
 						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
 						<VersionInfo Name="MajorVer">2</VersionInfo>
-						<VersionInfo Name="MinorVer">0</VersionInfo>
+						<VersionInfo Name="MinorVer">1</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
 						<VersionInfo Name="Build">0</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
@@ -109,13 +111,13 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">Krzysztof Grochocki (Beherit)</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">2.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">2.1.0.0</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName">BackupAQQ</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalCopyright">Krzysztof Grochocki (Beherit)</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks">Krzysztof Grochocki (Beherit)</VersionInfoKeys>
 						<VersionInfoKeys Name="OriginalFilename">BackupAQQ.exe</VersionInfoKeys>
 						<VersionInfoKeys Name="ProductName">BackupAQQ</VersionInfoKeys>
-						<VersionInfoKeys Name="ProductVersion">2.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="ProductVersion">2.1.0.0</VersionInfoKeys>
 						<VersionInfoKeys Name="Comments">Proste tworzenie i przywracanie kopii profili AQQ</VersionInfoKeys>
 					</VersionInfoKeys>
 					<Debugging>
@@ -143,9 +145,6 @@
 						<ProjectProperties Name="ManagePaths">True</ProjectProperties>
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
-					<Source>
-						<Source Name="MainSource">BackupAQQ.cpp</Source>
-					</Source>
 				</CPlusPlusBuilder.Personality>
 			</BorlandProject>
 			<ProjectFileVersion>12</ProjectFileVersion>

@@ -22,6 +22,11 @@
 #include "LMDCustomEdit.hpp"
 #include "LMDCustomPanel.hpp"
 #include "LMDPNGImage.hpp"
+#include <ImgList.hpp>
+#include "LMDCustomComponent.hpp"
+#include "LMDWndProcComponent.hpp"
+#include "LMDTrayIcon.hpp"
+#include "ZipForge.hpp"
 //---------------------------------------------------------------------------
 class TBackupAQQForm : public TForm
 {
@@ -42,18 +47,11 @@ __published:	// IDE-managed Components
 	TTabControl *MainTabControl;
 	TLabel *ProfilesListLabel;
 	TLabel *SaveToPathLabel;
-	TLabel *ExecuteLabel;
 	TImage *Image1;
 	TListBox *ProfilesListBox;
 	TRadioButton *CreateBackupRadioButton;
 	TRadioButton *RestoreProfileRadioButton;
 	TLMDBrowseEdit *BrowseEdit;
-	TCheckBox *PluginsCheckBox;
-	TCheckBox *ThemesCheckBox;
-	TCheckBox *SmileysCheckBox;
-	TCheckBox *CustomEmotsCheckBox;
-	TCheckBox *IncomingCheckBox;
-	TCheckBox *TempCheckBox;
 	TButton *ExitButton;
 	TButton *NextButton;
 	TButton *PreviousButton;
@@ -65,7 +63,14 @@ __published:	// IDE-managed Components
 	TIdThreadComponent *BackupIdThreadComponent;
 	TIdThreadComponent *RestoreIdThreadComponent;
 	TIdThreadComponent *ManualRestoreIdThreadComponent;
-	TIdThreadComponent *GetProgressIdThreadComponent;
+	TAction *aCommandDoBackup;
+	TLMDTrayIcon *TrayIcon;
+	TBevel *MainBevel;
+	TZipForge *ZipForge;
+	TLabel *ProgressLabel;
+	TLabel *ProgressLabel2;
+	TTimer *Win7ProgressTimer;
+	TZipForge *ZipForgeCommand;
 	void __fastcall aGetProfilesListExecute(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall ExitButtonClick(TObject *Sender);
@@ -78,9 +83,22 @@ __published:	// IDE-managed Components
 	void __fastcall BackupIdThreadComponentRun(TIdThreadComponent *Sender);
 	void __fastcall RestoreIdThreadComponentRun(TIdThreadComponent *Sender);
 	void __fastcall ManualRestoreIdThreadComponentRun(TIdThreadComponent *Sender);
-	void __fastcall GetProgressIdThreadComponentRun(TIdThreadComponent *Sender);
+	void __fastcall aCommandDoBackupExecute(TObject *Sender);
+	void __fastcall FormPaint(TObject *Sender);
+	void __fastcall ZipForgeFileProgress(TObject *Sender, UnicodeString FileName, double Progress,
+          TZFProcessOperation Operation, TZFProgressPhase ProgressPhase, bool &Cancel);
+	void __fastcall ZipForgeOverallProgress(TObject *Sender, double Progress, TZFProcessOperation Operation,
+          TZFProgressPhase ProgressPhase, bool &Cancel);
+	void __fastcall CreateBackupRadioButtonClick(TObject *Sender);
+	void __fastcall RestoreProfileRadioButtonClick(TObject *Sender);
+	void __fastcall Win7ProgressTimerTimer(TObject *Sender);
+	void __fastcall ZipForgeCommandOverallProgress(TObject *Sender, double Progress,
+          TZFProcessOperation Operation, TZFProgressPhase ProgressPhase, bool &Cancel);
+
+
+
 private:	// User declarations
-	void __fastcall FindDir(TListBox *lista, AnsiString Dir);
+	void __fastcall FindDir(TListBox *lista, UnicodeString Dir);
 public:		// User declarations
 	__fastcall TBackupAQQForm(TComponent* Owner);
 };
