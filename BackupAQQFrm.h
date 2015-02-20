@@ -32,9 +32,10 @@
 #include "sLabel.hpp"
 #include "sListBox.hpp"
 #include "sMaskEdit.hpp"
+#include "sPageControl.hpp"
 #include "sRadioButton.hpp"
 #include "sSkinManager.hpp"
-#include "sTooledit.hpp"
+#include "sToolEdit.hpp"
 #include "ZipForge.hpp"
 #include <System.Actions.hpp>
 #include <System.Classes.hpp>
@@ -46,7 +47,6 @@
 #include <Vcl.FileCtrl.hpp>
 #include <Vcl.Mask.hpp>
 #include <Vcl.StdCtrls.hpp>
-#include "sPageControl.hpp"
 //---------------------------------------------------------------------------
 class TBackupAQQForm : public TForm
 {
