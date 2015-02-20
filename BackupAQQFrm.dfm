@@ -3,7 +3,7 @@ object BackupAQQForm: TBackupAQQForm
   Top = 0
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'BackupAQQ 3.0'
+  Caption = 'BackupAQQ 3.1'
   ClientHeight = 326
   ClientWidth = 370
   Color = clBtnFace
@@ -2339,6 +2339,10 @@ object BackupAQQForm: TBackupAQQForm
       TabVisible = False
       SkinData.CustomColor = False
       SkinData.CustomFont = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object InfoLabel: TsLabel
         AlignWithMargins = True
         Left = 10
@@ -4454,6 +4458,10 @@ object BackupAQQForm: TBackupAQQForm
       TabVisible = False
       SkinData.CustomColor = False
       SkinData.CustomFont = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Image3: TImage
         Left = 219
         Top = 138

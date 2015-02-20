@@ -71,8 +71,9 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>FileVersion=3.0.0.0;InternalName=;LegalTrademarks=;OriginalFilename=;ProductName=BackupAQQ;ProductVersion=3.0.0.0;Comments=;LegalCopyright=Krzysztof Grochocki (Beherit)</VerInfo_Keys>
+        <VerInfo_Keys>FileVersion=3.1.0.0;ProductName=BackupAQQ;ProductVersion=3.0.0.0;LegalCopyright=Krzysztof Grochocki;CompanyName=Beherit Development;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
         <PackageImports>bindcompfmx;vcldbx;acnt_R;fmx;rtl;dbrtl;IndySystem;TeeDB;bindcomp;inetdb;inetdbbde;vclib;DBXInterBaseDriver;Tee;DataSnapCommon;dclZipForged17;xmlrtl;ibxpress;DbxCommonDriver;vclimg;IndyProtocols;dbxcds;MetropolisUILiveTile;vclactnband;bindengine;vcldb;soaprtl;bindcompdbx;vcldsnap;bindcompvcl;FMXTee;TeeUI;vclie;vcltouch;bcbsmp;websnap;CustomIPTransport;vclribbon;VclSmp;dsnap;IndyIPServer;vclZipForged21;fmxase;vcl;IndyCore;IndyIPCommon;dsnapcon;FmxTeeUI;inet;fmxobj;vclx;inetdbxpress;webdsnap;fmxdae;bdertl;adortl;bcbie;dbexpress;IndyIPClient;$(PackageImports)</PackageImports>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
@@ -106,9 +107,10 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
         <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
-        <VerInfo_Keys>FileVersion=3.0.0.0;InternalName=;LegalTrademarks=;OriginalFilename=;ProductName=BackupAQQ;ProductVersion=3.0.0.0;Comments=;LegalCopyright=Krzysztof Grochocki (Beherit)</VerInfo_Keys>
+        <VerInfo_Keys>FileVersion=3.1.0.0;ProductName=BackupAQQ;ProductVersion=3.0.0.0;LegalCopyright=Krzysztof Grochocki;CompanyName=Beherit Development;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -116,8 +118,9 @@
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
         <ILINK_LibraryPath>C:\Users\Public\Documents\Embarcadero\Studio\15.0\DCP\;$(BDS)\ZipForge\Lib\Delphi XE7 and C++ Builder XE7\;$(BDS)\lib\win32\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <VerInfo_Keys>FileVersion=3.0.0.0;InternalName=;LegalTrademarks=;OriginalFilename=;ProductName=BackupAQQ;ProductVersion=3.0.0.0;Comments=;LegalCopyright=Krzysztof Grochocki (Beherit)</VerInfo_Keys>
+        <VerInfo_Keys>FileVersion=3.1.0.0;ProductName=BackupAQQ;ProductVersion=3.0.0.0;LegalCopyright=Krzysztof Grochocki;CompanyName=Beherit Development;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
         <LinkPackageStatics>rtl.lib;vcl.lib;acnt_R.lib;vclimg.lib;vclx.lib;vclZipForged21.lib;IndySystem.lib;IndyCore.lib</LinkPackageStatics>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
