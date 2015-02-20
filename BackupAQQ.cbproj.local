@@ -1,18 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>2010-01-17 18:54:48.500.cpp,C:\Documents and Settings\Beherit\Moje dokumenty\RAD Studio\Projects\Unit1.cpp=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQ.cpp</Transaction>
-    <Transaction>2010-01-17 18:54:48.500.h,C:\Documents and Settings\Beherit\Moje dokumenty\RAD Studio\Projects\Unit1.h=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQ.h</Transaction>
-    <Transaction>2010-01-17 18:54:48.500.dfm,C:\Documents and Settings\Beherit\Moje dokumenty\RAD Studio\Projects\Unit1.dfm=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQ.dfm</Transaction>
-    <Transaction>2010-01-17 18:55:18.406.cpp,D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQ.cpp=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQfRM.cpp</Transaction>
-    <Transaction>2010-01-17 18:55:18.406.h,D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQ.h=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQfRM.h</Transaction>
-    <Transaction>2010-01-17 18:55:18.406.dfm,D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQ.dfm=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQfRM.dfm</Transaction>
-    <Transaction>2010-01-17 18:55:33.421.cbproj,C:\Documents and Settings\Beherit\Moje dokumenty\RAD Studio\Projects\Project1.cbproj=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQ.cbproj</Transaction>
-    <Transaction>2010-01-17 18:55:50.640.cpp,D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQfRM.cpp=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQxx.cpp</Transaction>
-    <Transaction>2010-01-17 18:55:50.640.h,D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQfRM.h=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQxx.h</Transaction>
-    <Transaction>2010-01-17 18:55:50.640.dfm,D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQfRM.dfm=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQxx.dfm</Transaction>
-    <Transaction>2010-01-17 18:55:54.515.cpp,D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQxx.cpp=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQFrm.cpp</Transaction>
-    <Transaction>2010-01-17 18:55:54.515.h,D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQxx.h=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQFrm.h</Transaction>
-    <Transaction>2010-01-17 18:55:54.515.dfm,D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQxx.dfm=D:\C++ Projects\BackupAQQ_\2.0.0.0\BackupAQQFrm.dfm</Transaction>
+    <Transaction>2011-03-26 23:53:59.917.cpp,C:\Users\Beherit\Documents\RAD Studio\Projects\Unit1.cpp=D:\C++ Projects\BackupAQQ_\Nowy folder\Unit1.cpp</Transaction>
+    <Transaction>2011-03-26 23:53:59.917.h,C:\Users\Beherit\Documents\RAD Studio\Projects\Unit1.h=D:\C++ Projects\BackupAQQ_\Nowy folder\Unit1.h</Transaction>
+    <Transaction>2011-03-26 23:53:59.917.dfm,C:\Users\Beherit\Documents\RAD Studio\Projects\Unit1.dfm=D:\C++ Projects\BackupAQQ_\Nowy folder\Unit1.dfm</Transaction>
+    <Transaction>2011-03-26 23:54:04.082.cbproj,C:\Users\Beherit\Documents\RAD Studio\Projects\Project1.cbproj=D:\C++ Projects\BackupAQQ_\Nowy folder\BackupAQQ.cbproj</Transaction>
+    <Transaction>2011-03-26 23:56:58.935.cpp,D:\C++ Projects\BackupAQQ_\Nowy folder\Unit1.cpp=</Transaction>
+    <Transaction>2011-03-26 23:56:58.935.dfm,D:\C++ Projects\BackupAQQ_\Nowy folder\Unit1.dfm=</Transaction>
   </Transactions>
 </BorlandProject>
