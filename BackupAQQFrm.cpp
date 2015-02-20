@@ -47,8 +47,6 @@
 #pragma resource "*.dfm"
 TBackupAQQForm *BackupAQQForm;
 //---------------------------------------------------------------------------
-typedef TComInterface<ITaskbarList3, &IID_ITaskbarList3> ITaskbarListPtr; //Taskbar
-ITaskbarListPtr FTaskbarList; //Taskbar
 UnicodeString ProfilesPath; //Sciezka profili
 UnicodeString UserProfilePath; //Sciezka profili
 UnicodeString CommandLine[3]; //Komendy przekazane wraz z uruchomieniem
@@ -254,14 +252,14 @@ void __fastcall TBackupAQQForm::aBackupProfileExecute(TObject *Sender)
 			BackupName = sDirectoryEdit->Text + "\\" + ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex] + "_" + Today + "_" + IntToStr(Count) + ".aqqbackup";
 		}
 	}
-	//Resetowanie paska postepu
+	//Wlaczenie paska postepu
 	ProgressBar->Position = 0;
 	ProgressBar->Visible = true;
 	ProgressLabel->Caption = "";
 	ProgressLabel->Visible = true;
-	//Ustawienie paska postepu na taskbarze
-	if((!FTaskbarList)&&(SUCCEEDED(FTaskbarList.CreateInstance(CLSID_TaskbarList, 0))))
-		FTaskbarList->HrInit();
+	//Wlaczenie paska postepu na taskbarze
+	Taskbar->ProgressValue = 0;
+	Taskbar->ProgressState = TTaskBarProgressState::Normal;
 	//Usuwanie tymczasowego folderu w profilu
 	DeleteFiles(ProfilesPath + ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex] + "\\Data\\Temp\\");
 	RemoveDirectory((ProfilesPath + ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex] + "\\Data\\Temp").w_str());
@@ -285,11 +283,11 @@ void __fastcall TBackupAQQForm::aBackupProfileExecute(TObject *Sender)
 		//Informacja koncowa
 		InfoLabel->Caption = "Proces tworzenia kopii zapasowej przebieg³ prawid³owo. Kopia profilu \"" + ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex] + "\" zosta³a zapisana do pliku \"" + ExtractFileName(BackupName) + "\".";
 	}
-	//Resetowanie paska postepu
+	//Wylaczenie paska postepu
 	ProgressBar->Visible = false;
 	ProgressLabel->Visible = false;
-	//Ustawienie paska postepu na taskbarze
-	if(FTaskbarList) FTaskbarList->SetProgressState(Handle, TBPF_NOPROGRESS);	
+	//Wylaczenie paska postepu na taskbarze
+	Taskbar->ProgressState = TTaskBarProgressState::None;
 	//Wlaczenie przyciskow
 	PreviousButton->Enabled = true;
 	CloseButton->Enabled = true;
@@ -299,7 +297,7 @@ void __fastcall TBackupAQQForm::aBackupProfileExecute(TObject *Sender)
 void __fastcall TBackupAQQForm::aCommandBackupProfileExecute(TObject *Sender)
 {
 	//Zmienna pomocnicza w przypadku bledow
-	bool TerminateOperation = false;	
+	bool TerminateOperation = false;
 	//Pobieranie listy profili
 	aGetProfiles->Execute();
 	//Pobranie przekazanych parametrow
@@ -410,20 +408,20 @@ void __fastcall TBackupAQQForm::aRestoreProfile(UnicodeString FileName)
 	ProgressBar->Visible = true;
 	ProgressLabel->Caption = "";
 	ProgressLabel->Visible = true;
-	//Ustawienie paska postepu na taskbarze
-	if((!FTaskbarList)&&(SUCCEEDED(FTaskbarList.CreateInstance(CLSID_TaskbarList, 0))))
-		FTaskbarList->HrInit();
+	//Wlaczenie paska postepu na taskbarze
+	Taskbar->ProgressValue = 0;
+	Taskbar->ProgressState = TTaskBarProgressState::Normal;
 	//Wypakowywanie kopii zapasowej profilu
 	ZipForge->FileName = FileName;
 	ZipForge->OpenArchive(fmOpenRead);
 	ZipForge->BaseDir = ProfilesPath;
 	ZipForge->ExtractFiles("*.*");
 	ZipForge->CloseArchive();
-	//Resetowanie paska postepu
+	//Wylaczenie paska postepu
 	ProgressBar->Visible = false;
 	ProgressLabel->Visible = false;
-	//Ustawienie paska postepu na taskbarze
-	if(FTaskbarList) FTaskbarList->SetProgressState(Handle, TBPF_NOPROGRESS);
+	//Wylaczenie paska postepu na taskbarze
+	Taskbar->ProgressState = TTaskBarProgressState::None;
 	//Informacja koncowa
 	InfoLabel->Caption = "Zakoñczono! BackupAQQ pomyœlnie przywróci³ kopiê profilu AQQ z pliku \"" + ExtractFileName(FileName) + "\".";
 	//Wlaczenie przyciskow
@@ -588,10 +586,10 @@ void __fastcall TBackupAQQForm::ZipForgeOverallProgress(TObject *Sender, double 
 {
 	//Ustawienie paska postepu
 	ProgressBar->Position = Progress;
+	//Ustawienie paska postepu na taskbarze
+	Taskbar->ProgressValue = Progress;
 	//Ustawienie postepu w dymku tray
 	if(TrayIcon->Visible) TrayIcon->Hint = "Tworzenie kopii zapasowej profilu \"" + CommandLine[1] + "\" - " + IntToStr((int)Progress) + "%";
-	//Ustawienie paska postepu na taskbarze
-	if(FTaskbarList) FTaskbarList->SetProgressValue(Handle, Progress, 100);
 	//Wywolanie odrysowania aplikacji
 	Application->ProcessMessages();
 }

@@ -47,6 +47,8 @@
 #include <Vcl.FileCtrl.hpp>
 #include <Vcl.Mask.hpp>
 #include <Vcl.StdCtrls.hpp>
+#include <System.Win.TaskbarCore.hpp>
+#include <Vcl.Taskbar.hpp>
 //---------------------------------------------------------------------------
 class TBackupAQQForm : public TForm
 {
@@ -81,6 +83,7 @@ __published:	// IDE-managed Components
 	TsButton *BrowseButton;
 	TFileListBox *BackupsFileListBox;
 	TsOpenDialog *sOpenDialog;
+	TTaskbar *Taskbar;
 	void __fastcall aExitExecute(TObject *Sender);
 	void __fastcall aGetProfilesExecute(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);

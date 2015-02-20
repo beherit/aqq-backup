@@ -2329,10 +2329,6 @@ object BackupAQQForm: TBackupAQQForm
       TabVisible = False
       SkinData.CustomColor = False
       SkinData.CustomFont = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object InfoLabel: TsLabel
         AlignWithMargins = True
         Left = 10
@@ -4448,10 +4444,6 @@ object BackupAQQForm: TBackupAQQForm
       TabVisible = False
       SkinData.CustomColor = False
       SkinData.CustomFont = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Image3: TImage
         Left = 219
         Top = 138
@@ -7840,5 +7832,12 @@ object BackupAQQForm: TBackupAQQForm
     OnCanClose = sOpenDialogCanClose
     Left = 32
     Top = 248
+  end
+  object Taskbar: TTaskbar
+    TaskBarButtons = <>
+    ProgressMaxValue = 100
+    TabProperties = []
+    Left = 68
+    Top = 246
   end
 end
