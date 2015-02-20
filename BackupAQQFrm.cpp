@@ -120,7 +120,7 @@ void __fastcall TBackupAQQForm::aGetProfilesListExecute(TObject *Sender)
 	//Profile w g³ównym folderze AQQ
     if(DirectoryExists(ProfilesPath))
 	{
-      FindDir(ProfilesListBox,ProfilesPath);
+	  FindDir(ProfilesListBox,ProfilesPath);
 	  ProfilesInAQQExePath = true;
     }
   }
@@ -148,8 +148,13 @@ void __fastcall TBackupAQQForm::aGetProfilesListExecute(TObject *Sender)
 	FindDir(ProfilesListBox,ProfilesPath);
   }
   //Zaznaczanie pierwszego profilu na liscie
-  if(ProfilesListBox->Items>0)
-   ProfilesListBox->ItemIndex=0;
+  if(ProfilesListBox->Items->Count>0)
+  {
+	ProfilesListBox->ItemIndex = 0;
+	NextButton->Enabled = true;
+  }
+  else
+   NextButton->Enabled = false;
 }
 //---------------------------------------------------------------------------
 
@@ -159,9 +164,6 @@ void __fastcall TBackupAQQForm::FormShow(TObject *Sender)
   Win7Support = CheckWin7Support();
   //Pobieranie listy profili
   aGetProfilesList->Execute();
-  //Tworzenie domyslnego folderu z plikami backup
-  if(!DirectoryExists(ExtractFilePath(Application->ExeName) + "\\Backups"))
-   CreateDir(ExtractFilePath(Application->ExeName) + "\\\\Backups");
   //Ustawianie domyslnego folder z plikami backup
   BrowseEdit->Path=ExtractFilePath(Application->ExeName) + "\Backups";
   //Jezeli uruchomiono program z parametrami
@@ -267,7 +269,7 @@ void __fastcall TBackupAQQForm::PreviousButtonClick(TObject *Sender)
 	PreviousButton->Enabled = false;
 	NextButton->Enabled = true;
 
-    aGetProfilesList->Execute();
+	aGetProfilesList->Execute();
   }
   else if(RestoreTabControl->Visible)
   {
@@ -356,6 +358,10 @@ void __fastcall TBackupAQQForm::OpenDialogCanClose(TObject *Sender, bool &CanClo
 
 void __fastcall TBackupAQQForm::BackupIdThreadComponentRun(TIdThreadComponent *Sender)
 {
+  //Tworzenie domyslnego folderu z plikami backup
+  if(BrowseEdit->Path==ExtractFilePath(Application->ExeName) + "\Backups")
+   if(!DirectoryExists(ExtractFilePath(Application->ExeName) + "\\Backups"))
+	CreateDir(ExtractFilePath(Application->ExeName) + "\\\\Backups");
   //Definiowanie nazwy pliku backup
   TDateTime Todey = TDateTime::CurrentDate();
   UnicodeString BackupName = BrowseEdit->Path + "\\" + ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex] + "_" + Todey + ".aqqbackup";
@@ -418,6 +424,13 @@ void __fastcall TBackupAQQForm::RestoreIdThreadComponentRun(TIdThreadComponent *
   //Przywracanie profilu wedlug umiejscowienia
   if(ProfilesInAQQExePath)
   {
+    //Jezeli zadnych profili nie ma jeszcze
+	if(ProfilesListBox->Items->Count==0)
+	{
+	  ProfilesListBox->Enabled = true;
+	  ProfilesListBox->Items->Add("Temp");
+	  ProfilesListBox->ItemIndex = 0;
+	}
 	ZipForge->FileName = BackupsFileListBox->FileName;
 	ZipForge->OpenArchive(fmOpenRead);
 	ZipForge->BaseDir = ProfilesPath + "\\Wapster\\AQQ Folder\\Profiles\\";
@@ -440,11 +453,30 @@ void __fastcall TBackupAQQForm::RestoreIdThreadComponentRun(TIdThreadComponent *
 	 }
 	pShellMalloc->Release();
 
+	//Tworzenie struktury katalogow
+	if(!DirectoryExists(ProfilesPath + "\\Wapster\\AQQ Folder\\Profiles"))
+	{
+	  CreateDir(ProfilesPath + "\\Wapster");
+	  CreateDir(ProfilesPath + "\\Wapster\\AQQ Folder");
+	  CreateDir(ProfilesPath + "\\Wapster\\AQQ Folder\\Profiles");
+	}
+	//Jezeli zadnych profili nie ma jeszcze
+	if(ProfilesListBox->Items->Count==0)
+	{
+	  ProfilesListBox->Enabled = true;
+	  ProfilesListBox->Items->Add("Temp");
+	  ProfilesListBox->ItemIndex = 0;
+	}
 	ZipForge->FileName = BackupsFileListBox->FileName;
 	ZipForge->OpenArchive(fmOpenRead);
 	ZipForge->BaseDir = ProfilesPath + "\\Wapster\\AQQ Folder\\Profiles\\";
+	ZipForge->TempDir = ProfilesPath + "\\Wapster\\AQQ Folder\\Profiles\\";
 	ZipForge->ExtractFiles("*.*");
 	ZipForge->CloseArchive();
+	if(ProfilesListBox->Items->Count==0)
+	{
+	  RemoveDir(ProfilesPath + "\\Wapster\\AQQ Folder\\Profiles\\Temp");
+	}
   }
   //Resetowanie progress
   ProgressBar2->Visible = false;
@@ -485,6 +517,13 @@ void __fastcall TBackupAQQForm::ManualRestoreIdThreadComponentRun(TIdThreadCompo
   //Przywracanie profilu wedlug umiejscowienia
   if(ProfilesInAQQExePath)
   {
+    //Jezeli zadnych profili nie ma jeszcze
+	if(ProfilesListBox->Items->Count==0)
+	{
+	  ProfilesListBox->Enabled = true;
+	  ProfilesListBox->Items->Add("Temp");
+	  ProfilesListBox->ItemIndex = 0;
+	}
 	ZipForge->FileName = OpenDialog->FileName;
 	ZipForge->OpenArchive(fmOpenRead);
 	ZipForge->BaseDir = ProfilesPath + "\\Wapster\\AQQ Folder\\Profiles\\";
@@ -506,6 +545,21 @@ void __fastcall TBackupAQQForm::ManualRestoreIdThreadComponentRun(TIdThreadCompo
 	   pShellMalloc->Free(pidl);
 	 }
 	pShellMalloc->Release();
+
+	//Tworzenie struktury katalogow
+	if(!DirectoryExists(ProfilesPath + "\\Wapster\\AQQ Folder\\Profiles"))
+	{
+	  CreateDir(ProfilesPath + "\\Wapster");
+	  CreateDir(ProfilesPath + "\\Wapster\\AQQ Folder");
+	  CreateDir(ProfilesPath + "\\Wapster\\AQQ Folder\\Profiles");
+	}
+	//Jezeli zadnych profili nie ma jeszcze
+	if(ProfilesListBox->Items->Count==0)
+	{
+	  ProfilesListBox->Enabled = true;
+	  ProfilesListBox->Items->Add("Temp");
+	  ProfilesListBox->ItemIndex = 0;
+	}
 
 	ZipForge->FileName = OpenDialog->FileName;
 	ZipForge->OpenArchive(fmOpenRead);
@@ -575,7 +629,8 @@ void __fastcall TBackupAQQForm::ZipForgeFileProgress(TObject *Sender, UnicodeStr
 		  double Progress, TZFProcessOperation Operation, TZFProgressPhase ProgressPhase,
           bool &Cancel)
 {
-  FileName = StringReplace(FileName, ProfilesPath+ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex], "...", TReplaceFlags() << rfReplaceAll);
+  if(ProfilesListBox->Items>0)
+   FileName = StringReplace(FileName, ProfilesPath+ProfilesListBox->Items->Strings[ProfilesListBox->ItemIndex], "...", TReplaceFlags() << rfReplaceAll);
   ProgressLabel->Caption = FileName;
   ProgressLabel2->Caption = "...\\" + FileName;
 }
@@ -596,6 +651,10 @@ void __fastcall TBackupAQQForm::CreateBackupRadioButtonClick(TObject *Sender)
   ProfilesListBox->Enabled = true;
   SaveToPathLabel->Enabled = true;
   BrowseEdit->Enabled = true;
+  if(ProfilesListBox->Items->Count>0)
+   NextButton->Enabled = true;
+  else
+   NextButton->Enabled = false;
 }
 //---------------------------------------------------------------------------
 
@@ -605,6 +664,7 @@ void __fastcall TBackupAQQForm::RestoreProfileRadioButtonClick(TObject *Sender)
   ProfilesListBox->Enabled = false;
   SaveToPathLabel->Enabled = false;
   BrowseEdit->Enabled = false;
+  NextButton->Enabled = true;
 }
 //---------------------------------------------------------------------------
 
@@ -636,4 +696,5 @@ void __fastcall TBackupAQQForm::ZipForgeCommandOverallProgress(TObject *Sender, 
   TrayIcon->Hint = "Tworzenie kopii zapasowej profilu " + ProfileName + " - " + IntToStr(PProgress) + "%";
 }
 //---------------------------------------------------------------------------
+
 

@@ -1,3 +1,9 @@
+2.1.1.0
+-----
+* Tworzenie struktury katalogów dla profili AQQ w folderze użytkownika Windows.
+* Tworzenie domyślnego folderu z kopiami profilu odbywa się tylko przy robieniu kopii zapasowej w domyślnej lokalizacji.
+* Inne mniej ważne poprawki w kodzie.
+
 2.1.0.0
 -----
 * Zastąpienie programu 7Zip komponentem ZipForge.
