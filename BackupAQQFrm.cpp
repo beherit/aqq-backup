@@ -667,3 +667,9 @@ void __fastcall TBackupAQQForm::sDirectoryEditChange(TObject *Sender)
 	}
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TBackupAQQForm::sSkinManagerSysDlgInit(TacSysDlgData DlgData, bool &AllowSkinning)
+{
+	AllowSkinning = false;
+}
+//---------------------------------------------------------------------------
